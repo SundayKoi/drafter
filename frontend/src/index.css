@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+/* --- Self-hosted fonts --- */
+
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/BebasNeue-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/SpaceMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/SpaceMono-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Regular.woff2') format('woff2');
+}
+
+/* --- Tailwind theme --- */
+
+@theme {
+  --color-primary: #FF6B00;
+  --color-secondary: #1A1A1A;
+  --color-draft-bg: #0A0A0A;
+  --color-draft-surface: #141414;
+  --color-draft-border: #222222;
+  --color-blue-side: #2563EB;
+  --color-red-side: #DC2626;
+  --color-gold: #EAB308;
+  --color-fearless: #7F1D1D;
+  --color-fearless-text: #FCA5A5;
+  --color-muted: #666666;
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* --- Base styles --- */
+
+body {
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  font-family: var(--font-body);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Custom scrollbar --- */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* --- Glow keyframes --- */
+
+@keyframes slot-glow-blue {
+  0%, 100% { box-shadow: 0 0 8px rgba(37, 99, 235, 0.4), inset 0 0 8px rgba(37, 99, 235, 0.05); }
+  50%      { box-shadow: 0 0 20px rgba(37, 99, 235, 0.7), inset 0 0 16px rgba(37, 99, 235, 0.1); }
+}
+
+@keyframes slot-glow-red {
+  0%, 100% { box-shadow: 0 0 8px rgba(220, 38, 38, 0.4), inset 0 0 8px rgba(220, 38, 38, 0.05); }
+  50%      { box-shadow: 0 0 20px rgba(220, 38, 38, 0.7), inset 0 0 16px rgba(220, 38, 38, 0.1); }
+}
+
+@keyframes slot-glow-gold {
+  0%, 100% { box-shadow: 0 0 0 2px #EAB308, 0 0 12px rgba(234, 179, 8, 0.3); }
+  50%      { box-shadow: 0 0 0 2px #EAB308, 0 0 24px rgba(234, 179, 8, 0.5); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes lock-flash {
+  0%   { background-color: rgba(255, 107, 0, 0.3); }
+  100% { background-color: transparent; }
+}
+
+/* --- Utility classes --- */
+
+.glow-blue  { animation: slot-glow-blue 2s ease-in-out infinite; }
+.glow-red   { animation: slot-glow-red 2s ease-in-out infinite; }
+.glow-gold  { animation: slot-glow-gold 2s ease-in-out infinite; }
+.fade-in    { animation: fade-in 0.3s ease-out; }
+.slide-up   { animation: slide-up 0.3s ease-out; }
+.lock-flash { animation: lock-flash 0.4s ease-out; }
+
+/* --- Diagonal texture overlay for draft board --- */
+
+.draft-texture {
+  position: relative;
+}
+
+.draft-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.5) 10px,
+    rgba(255, 255, 255, 0.5) 11px
+  );
+}
+
+/* --- Champion grid scroll area --- */
+
+.champion-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #333 #0A0A0A;
+}
