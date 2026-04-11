@@ -77,10 +77,10 @@ export function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 gap-12">
       {/* Hero */}
-      <div className="flex flex-col items-center gap-4">
-        <img src={BRAND.logoUrl} alt={BRAND.name} className="h-20 w-auto" />
-        <h1 className="font-display text-7xl md:text-8xl text-white uppercase leading-none text-center">
-          Draft.<br />Dominate.<br />Win.
+      <div className="flex flex-col items-center gap-6">
+        <img src={BRAND.logoUrl} alt={BRAND.name} className="h-40 md:h-52 w-auto" />
+        <h1 className="font-display text-3xl md:text-4xl text-white uppercase leading-tight text-center tracking-wider">
+          Real-Time Draft Tool
         </h1>
         <p className="font-mono text-sm text-muted text-center max-w-md">
           Create a series, share the links, draft live.
