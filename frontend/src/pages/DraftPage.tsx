@@ -36,6 +36,7 @@ export function DraftPage() {
   const setRole = useDraftStore((s) => s.setRole);
   const setHover = useDraftStore((s) => s.setHover);
   const setTimer = useDraftStore((s) => s.setTimer);
+  const hoveredChampionId = useDraftStore((s) => s.hoveredChampionId);
 
   const series = useSeriesStore((s) => s.series);
   const setSeries = useSeriesStore((s) => s.setSeries);
@@ -202,7 +203,11 @@ export function DraftPage() {
   return (
     <div className="relative min-h-screen bg-draft-bg py-6">
       <ConnectionStatus status={status} />
-      <DraftBoard patch={patch} centerContent={centerContent} />
+      <DraftBoard
+        patch={patch}
+        centerContent={centerContent}
+        previewChampionId={selectedChampion ?? hoveredChampionId}
+      />
       <ReadyGate onReady={handleReady} />
 
       {/* Overlays */}

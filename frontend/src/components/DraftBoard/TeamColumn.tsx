@@ -8,11 +8,12 @@ interface TeamColumnProps {
   currentSlotIndex: number;
   teamName: string | null;
   patch: string | null;
+  previewChampionId?: string | null;
 }
 
 const ROLE_LABELS = ['TOP', 'JG', 'MID', 'BOT', 'SUP'];
 
-export function TeamColumn({ side, slots, currentSlotIndex, teamName, patch }: TeamColumnProps) {
+export function TeamColumn({ side, slots, currentSlotIndex, teamName, patch, previewChampionId }: TeamColumnProps) {
   const bans = slots.filter((s) => s.side === side && s.action_type === 'ban');
   const picks = slots.filter((s) => s.side === side && s.action_type === 'pick');
   const isBlue = side === 'blue';
@@ -34,6 +35,7 @@ export function TeamColumn({ side, slots, currentSlotIndex, teamName, patch }: T
             slot={slot}
             isActive={slot.slot_index === currentSlotIndex}
             patch={patch}
+            previewChampionId={slot.slot_index === currentSlotIndex ? previewChampionId : null}
           />
         ))}
       </div>
@@ -50,6 +52,7 @@ export function TeamColumn({ side, slots, currentSlotIndex, teamName, patch }: T
             isActive={slot.slot_index === currentSlotIndex}
             patch={patch}
             slotLabel={ROLE_LABELS[i]}
+            previewChampionId={slot.slot_index === currentSlotIndex ? previewChampionId : null}
           />
         ))}
       </div>

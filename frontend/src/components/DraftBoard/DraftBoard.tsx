@@ -5,9 +5,10 @@ import { TeamColumn } from './TeamColumn';
 interface DraftBoardProps {
   patch: string | null;
   centerContent?: React.ReactNode;
+  previewChampionId?: string | null;
 }
 
-export function DraftBoard({ patch, centerContent }: DraftBoardProps) {
+export function DraftBoard({ patch, centerContent, previewChampionId }: DraftBoardProps) {
   const draft = useDraftStore((s) => s.draft);
   const series = useSeriesStore((s) => s.series);
 
@@ -19,6 +20,12 @@ export function DraftBoard({ patch, centerContent }: DraftBoardProps) {
     );
   }
 
+  // Determine which side the current slot belongs to
+  const currentSlot = draft.current_slot_index < draft.slots.length
+    ? draft.slots[draft.current_slot_index]
+    : null;
+  const activeSide = currentSlot?.side ?? null;
+
   return (
     <div className="flex items-start justify-center gap-6 w-full max-w-6xl mx-auto px-4 draft-texture">
       {/* Blue side — always left */}
@@ -28,6 +35,7 @@ export function DraftBoard({ patch, centerContent }: DraftBoardProps) {
         currentSlotIndex={draft.current_slot_index}
         teamName={series?.blue_team_name ?? null}
         patch={patch}
+        previewChampionId={activeSide === 'blue' ? previewChampionId : null}
       />
 
       {/* Center panel */}
@@ -42,6 +50,7 @@ export function DraftBoard({ patch, centerContent }: DraftBoardProps) {
         currentSlotIndex={draft.current_slot_index}
         teamName={series?.red_team_name ?? null}
         patch={patch}
+        previewChampionId={activeSide === 'red' ? previewChampionId : null}
       />
     </div>
   );
