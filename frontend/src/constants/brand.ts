@@ -1,7 +1,7 @@
 export const BRAND = {
-  name: 'Ember Esports',
-  logoUrl: '/assets/ember-logo.png',
-  siteName: 'Ember Draft Tool',
+  name: 'Draft Tool',
+  logoUrl: '',
+  siteName: 'Draft Tool',
   colors: {
     primary:   '#FF6B00',
     secondary: '#1A1A1A',
