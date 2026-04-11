@@ -100,7 +100,7 @@ async def _save_draft_state(series_id: str, game_id: str):
     return callback
 
 
-def _start_timer(series_id: str, room: DraftRoom, game_id: str, all_champion_ids: list[str] | None = None):
+def _start_timer(series_id: str, room: DraftRoom, game_id: str):
     """Cancel existing timer and start a new one."""
     if room.timer_task and not room.timer_task.done():
         room.timer_task.cancel()
@@ -119,7 +119,6 @@ def _start_timer(series_id: str, room: DraftRoom, game_id: str, all_champion_ids
             room,
             manager,
             db_save,
-            all_champion_ids,
         )
     )
 
