@@ -34,3 +34,5 @@ class DraftState(BaseModel):
     timer_seconds_remaining: int = 0
     fearless_pool: list[str] = Field(default_factory=list)
     fearless_mode: bool = False
+    blue_team_name: str | None = None
+    red_team_name: str | None = None

@@ -45,12 +45,10 @@ def _build_initial_draft_state(
         first_pick_side=first_pick_side,
         fearless_pool=fearless_pool,
         fearless_mode=fearless_mode,
+        blue_team_name=blue_team_name,
+        red_team_name=red_team_name,
     )
-    data = state.model_dump()
-    # Store team names snapshot so game history knows who was on which side
-    data["blue_team_name"] = blue_team_name
-    data["red_team_name"] = red_team_name
-    return data
+    return state.model_dump()
 
 
 async def create_series(
