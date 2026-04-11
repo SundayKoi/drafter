@@ -55,7 +55,7 @@ export function SeriesWinnerOverlay({
 
         {/* Branding */}
         <div className="flex items-center gap-2 mt-4 opacity-50">
-          {BRAND.logoUrl && <img src={BRAND.logoUrl} alt={BRAND.name} className="h-5 w-auto" />}
+          <img src={BRAND.logoUrl} alt={BRAND.name} className="h-5 w-auto" />
           <span className="font-mono text-[10px] text-muted">{BRAND.siteName}</span>
         </div>
 
