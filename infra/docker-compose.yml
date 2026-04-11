@@ -46,6 +46,7 @@ services:
     volumes:
       - ./nginx/ember-drafter.conf:/etc/nginx/conf.d/default.conf
       - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /opt/ember-stats:/opt/ember-stats:ro
     depends_on:
       - backend
       - frontend
