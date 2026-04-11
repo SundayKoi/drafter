@@ -427,13 +427,17 @@ async def _handle_start_next_game(
 
         next_game_number = (last_game.game_number + 1) if last_game else 1
 
-        # Swap sides if requested — swap team names on the series
+        # Swap sides if requested — swap team names AND scores so they follow the team
         swap_sides = payload.get("swap_sides", False)
         if swap_sides:
-            old_blue = series.blue_team_name
-            old_red = series.red_team_name
-            series.blue_team_name = old_red
-            series.red_team_name = old_blue
+            old_blue_name = series.blue_team_name
+            old_red_name = series.red_team_name
+            old_blue_score = series.blue_score
+            old_red_score = series.red_score
+            series.blue_team_name = old_red_name
+            series.red_team_name = old_blue_name
+            series.blue_score = old_red_score
+            series.red_score = old_blue_score
             await db.commit()
             await db.refresh(series)
             room.series = series
@@ -456,6 +460,8 @@ async def _handle_start_next_game(
             first_pick_side=first_pick_side,
             fearless_mode=series.fearless,
             fearless_pool=fearless_list,
+            blue_team_name=series.blue_team_name,
+            red_team_name=series.red_team_name,
         )
 
     # Update room state

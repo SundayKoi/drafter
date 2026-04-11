@@ -4,10 +4,11 @@ import type { Side } from '../../types/draft';
 interface GameCompleteOverlayProps {
   gameNumber: number;
   winner: Side;
+  winnerTeamName: string;
   onDismiss: () => void;
 }
 
-export function GameCompleteOverlay({ gameNumber, winner, onDismiss }: GameCompleteOverlayProps) {
+export function GameCompleteOverlay({ gameNumber, winner, winnerTeamName, onDismiss }: GameCompleteOverlayProps) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export function GameCompleteOverlay({ gameNumber, winner, onDismiss }: GameCompl
           Game {gameNumber}
         </span>
         <h1 className={`font-display text-6xl md:text-7xl uppercase tracking-wider ${sideColor}`}>
-          {winner === 'blue' ? 'Blue' : 'Red'} Wins
+          {winnerTeamName} Wins
         </h1>
         <div className="w-24 h-0.5 bg-draft-border" />
         <span className="font-mono text-xs text-muted">

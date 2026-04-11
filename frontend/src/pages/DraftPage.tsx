@@ -14,7 +14,6 @@ import { HoverPreview } from '../components/Overlay/HoverPreview';
 import { BannedChampionToast, emitBanEvent } from '../components/Overlay/BannedChampionToast';
 import { GameCompleteOverlay } from '../components/Overlay/GameCompleteOverlay';
 import { SeriesWinnerOverlay } from '../components/Overlay/SeriesWinnerOverlay';
-import { SideCoinFlip } from '../components/Overlay/SideCoinFlip';
 import { useChampions } from '../hooks/useChampions';
 import { useDraftStore } from '../hooks/useDraft';
 import { useSeriesStore } from '../hooks/useSeries';
@@ -30,8 +29,6 @@ export function DraftPage() {
   const { champions, championMap, patch } = useChampions();
   const [selectedChampion, setSelectedChampion] = useState<string | null>(null);
   const [gameReported, setGameReported] = useState(false);
-  const [showCoinFlip, setShowCoinFlip] = useState(false);
-  const [coinFlipSide, setCoinFlipSide] = useState<Side>('blue');
   const roleFetched = useRef(false);
 
   const draft = useDraftStore((s) => s.draft);
@@ -83,8 +80,6 @@ export function DraftPage() {
       case 'NEXT_GAME_STARTING':
         setGameReported(false);
         clearOverlays();
-        setCoinFlipSide(msg.payload.first_pick_side);
-        setShowCoinFlip(true);
         break;
       case 'SERIES_SYNC':
         setSeries(msg.payload);
@@ -214,17 +209,15 @@ export function DraftPage() {
       <HoverPreview championMap={championMap} patch={patch} />
       <BannedChampionToast patch={patch} />
 
-      {showCoinFlip && (
-        <SideCoinFlip
-          firstPickSide={coinFlipSide}
-          onComplete={() => setShowCoinFlip(false)}
-        />
-      )}
-
       {gameComplete && !seriesComplete && (
         <GameCompleteOverlay
           gameNumber={gameComplete.gameNumber}
           winner={gameComplete.winner}
+          winnerTeamName={
+            gameComplete.winner === 'blue'
+              ? (series?.blue_team_name ?? 'Blue')
+              : (series?.red_team_name ?? 'Red')
+          }
           onDismiss={clearOverlays}
         />
       )}

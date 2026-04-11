@@ -27,6 +27,8 @@ def _build_initial_draft_state(
     first_pick_side: str,
     fearless_mode: bool,
     fearless_pool: list[str],
+    blue_team_name: str | None = None,
+    red_team_name: str | None = None,
 ) -> dict:
     order = generate_draft_order(first_pick_side)
     slots = [
@@ -44,7 +46,11 @@ def _build_initial_draft_state(
         fearless_pool=fearless_pool,
         fearless_mode=fearless_mode,
     )
-    return state.model_dump()
+    data = state.model_dump()
+    # Store team names snapshot so game history knows who was on which side
+    data["blue_team_name"] = blue_team_name
+    data["red_team_name"] = red_team_name
+    return data
 
 
 async def create_series(
@@ -95,6 +101,8 @@ async def create_series(
         first_pick_side=game1_first_pick,
         fearless_mode=fearless,
         fearless_pool=[],
+        blue_team_name=blue_team_name,
+        red_team_name=red_team_name,
     )
 
     game = Game(
@@ -146,6 +154,8 @@ async def create_game(
     first_pick_side: str,
     fearless_mode: bool,
     fearless_pool: list[str],
+    blue_team_name: str | None = None,
+    red_team_name: str | None = None,
 ) -> Game:
     game_id = _generate_id()
     draft_state = _build_initial_draft_state(
@@ -155,6 +165,8 @@ async def create_game(
         first_pick_side=first_pick_side,
         fearless_mode=fearless_mode,
         fearless_pool=fearless_pool,
+        blue_team_name=blue_team_name,
+        red_team_name=red_team_name,
     )
 
     game = Game(

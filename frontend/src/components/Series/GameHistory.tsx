@@ -26,6 +26,12 @@ export function GameHistory({ games, patch }: GameHistoryProps) {
         const isOpen = expanded === game.game_number;
         const winnerColor = game.winner === 'blue' ? 'text-blue-side' : 'text-red-side';
 
+        // Read team names snapshot from draft state (stored per game)
+        const draftRaw = game.draft_state as Record<string, unknown> | null;
+        const blueTeam = (draftRaw?.blue_team_name as string) ?? 'Blue';
+        const redTeam = (draftRaw?.red_team_name as string) ?? 'Red';
+        const winnerName = game.winner === 'blue' ? blueTeam : redTeam;
+
         const bluePicks = game.draft_state?.slots.filter(
           (s) => s.side === 'blue' && s.action_type === 'pick' && s.champion_id
         ) ?? [];
@@ -35,7 +41,7 @@ export function GameHistory({ games, patch }: GameHistoryProps) {
 
         return (
           <div key={game.game_number} className="rounded border border-draft-border bg-draft-surface">
-            {/* Header row — always visible */}
+            {/* Header row */}
             <button
               onClick={() => setExpanded(isOpen ? null : game.game_number)}
               className="flex items-center justify-between w-full px-3 py-2 text-left hover:bg-draft-border/20 transition-colors"
@@ -44,7 +50,7 @@ export function GameHistory({ games, patch }: GameHistoryProps) {
                 Game {game.game_number}
               </span>
               <span className={`font-display text-sm uppercase ${winnerColor}`}>
-                {game.winner === 'blue' ? 'Blue' : 'Red'} Win
+                {winnerName} Win
               </span>
               <span className="text-muted text-xs">{isOpen ? '\u25B2' : '\u25BC'}</span>
             </button>
@@ -52,32 +58,42 @@ export function GameHistory({ games, patch }: GameHistoryProps) {
             {/* Expanded picks */}
             {isOpen && patch && (
               <div className="flex gap-4 px-3 pb-3">
-                {/* Blue picks */}
-                <div className="flex gap-1">
-                  {bluePicks.map((s) => (
-                    <img
-                      key={s.slot_index}
-                      src={iconUrl(patch, s.champion_id!)}
-                      alt={s.champion_id!}
-                      title={s.champion_id!}
-                      className="w-8 h-8 rounded border border-blue-side/40"
-                    />
-                  ))}
+                {/* Blue side */}
+                <div className="flex flex-col gap-1">
+                  <span className="font-display text-xs text-blue-side uppercase tracking-wider">
+                    {blueTeam}
+                  </span>
+                  <div className="flex gap-1">
+                    {bluePicks.map((s) => (
+                      <img
+                        key={s.slot_index}
+                        src={iconUrl(patch, s.champion_id!)}
+                        alt={s.champion_id!}
+                        title={s.champion_id!}
+                        className="w-8 h-8 rounded border border-blue-side/40"
+                      />
+                    ))}
+                  </div>
                 </div>
 
-                <span className="text-muted font-mono text-xs self-center">vs</span>
+                <span className="text-muted font-mono text-xs self-center mt-4">vs</span>
 
-                {/* Red picks */}
-                <div className="flex gap-1">
-                  {redPicks.map((s) => (
-                    <img
-                      key={s.slot_index}
-                      src={iconUrl(patch, s.champion_id!)}
-                      alt={s.champion_id!}
-                      title={s.champion_id!}
-                      className="w-8 h-8 rounded border border-red-side/40"
-                    />
-                  ))}
+                {/* Red side */}
+                <div className="flex flex-col gap-1">
+                  <span className="font-display text-xs text-red-side uppercase tracking-wider">
+                    {redTeam}
+                  </span>
+                  <div className="flex gap-1">
+                    {redPicks.map((s) => (
+                      <img
+                        key={s.slot_index}
+                        src={iconUrl(patch, s.champion_id!)}
+                        alt={s.champion_id!}
+                        title={s.champion_id!}
+                        className="w-8 h-8 rounded border border-red-side/40"
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
