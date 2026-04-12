@@ -5,9 +5,9 @@ import type { CreateSeriesResponse, SeriesFormat } from '../types/series';
 export function LandingPage() {
   const [name, setName] = useState('');
   const [format, setFormat] = useState<SeriesFormat>('bo3');
-  const [fearless, setFearless] = useState(false);
+  const [fearless, setFearless] = useState(true);
   const [firstPick, setFirstPick] = useState<'blue' | 'red' | 'coin_flip'>('blue');
-  const [timerSeconds, setTimerSeconds] = useState(30);
+  const [timerSeconds] = useState(60);
   const [blueTeam, setBlueTeam] = useState('');
   const [redTeam, setRedTeam] = useState('');
   const [patch] = useState('');
@@ -29,7 +29,7 @@ export function LandingPage() {
         body: JSON.stringify({
           name: name.trim(),
           format,
-          fearless,
+          fearless: format === 'bo1' ? false : fearless,
           patch: patch || 'latest',
           timer_seconds: timerSeconds,
           game1_first_pick: firstPick,
@@ -125,24 +125,6 @@ export function LandingPage() {
           </div>
         </div>
 
-        {/* Fearless toggle */}
-        <div className="flex items-center justify-between">
-          <label className="font-display text-sm text-muted uppercase tracking-wider">Fearless Draft</label>
-          <button
-            onClick={() => setFearless(!fearless)}
-            disabled={format === 'bo1'}
-            className={`w-12 h-6 rounded-full transition-colors relative ${
-              fearless ? 'bg-primary' : 'bg-draft-border'
-            } ${format === 'bo1' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}`}
-          >
-            <div
-              className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${
-                fearless ? 'translate-x-6' : 'translate-x-0.5'
-              }`}
-            />
-          </button>
-        </div>
-
         {/* First pick */}
         <div className="flex flex-col gap-1">
           <label className="font-display text-sm text-muted uppercase tracking-wider">First Pick</label>
@@ -165,22 +147,6 @@ export function LandingPage() {
               </button>
             ))}
           </div>
-        </div>
-
-        {/* Timer */}
-        <div className="flex flex-col gap-1">
-          <label className="font-display text-sm text-muted uppercase tracking-wider">
-            Timer: <span className="text-white">{timerSeconds}s</span>
-          </label>
-          <input
-            type="range"
-            min={10}
-            max={120}
-            step={5}
-            value={timerSeconds}
-            onChange={(e) => setTimerSeconds(Number(e.target.value))}
-            className="accent-primary"
-          />
         </div>
 
         {/* Team names (optional) */}
