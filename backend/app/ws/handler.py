@@ -395,6 +395,35 @@ async def _handle_report_winner(
             series_complete_message(series_winner, blue_score, red_score),
         )
 
+        # Send results to Discord
+        from app.notifications import send_series_complete_to_discord
+        winner_team = series.blue_team_name if series_winner == "blue" else series.red_team_name
+        loser_team = series.red_team_name if series_winner == "blue" else series.blue_team_name
+        game_dicts = [
+            {
+                "game_number": g.game_number,
+                "winner": g.winner,
+                "draft_state": g.draft_state_json,
+            }
+            for g in games
+        ]
+        # Include the just-completed game
+        game_dicts.append({
+            "game_number": current_game.game_number,
+            "winner": winner,
+            "draft_state": room.state.model_dump(),
+        })
+        await send_series_complete_to_discord(
+            series_name=series.name,
+            winner_team=winner_team or series_winner.title(),
+            loser_team=loser_team or ("Red" if series_winner == "blue" else "Blue"),
+            blue_score=blue_score,
+            red_score=red_score,
+            games=game_dicts,
+            series_format=series.format,
+            fearless=series.fearless,
+        )
+
 
 async def _handle_start_next_game(
     series_id: str, room: DraftRoom, role: str, payload: dict,
