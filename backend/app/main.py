@@ -13,9 +13,20 @@ from app.models.draft import DraftState
 from app.security.rate_limit import limiter
 from app.store import rooms as store
 from app.store.rooms import DraftRoom
+from app.routers.applications import router as applications_router
+from app.routers.auth import router as auth_router
 from app.routers.champions import router as champions_router
 from app.routers.draft import router as draft_router
+from app.routers.matches import router as matches_router
+from app.routers.news import router as news_router
+from app.routers.players import router as players_router
 from app.routers.series import router as series_router
+from app.routers.settings import router as settings_router
+from app.routers.sheets import router as sheets_router
+from app.routers.standings import router as standings_router
+from app.routers.teams import router as teams_router
+from app.routers.uploads import router as uploads_router
+from app.routers.vods import router as vods_router
 from app.ws.handler import router as ws_router
 
 logger = logging.getLogger(__name__)
@@ -80,6 +91,17 @@ app.include_router(series_router)
 app.include_router(draft_router)
 app.include_router(champions_router)
 app.include_router(ws_router)
+app.include_router(auth_router)
+app.include_router(settings_router)
+app.include_router(teams_router)
+app.include_router(players_router)
+app.include_router(applications_router)
+app.include_router(standings_router)
+app.include_router(matches_router)
+app.include_router(news_router)
+app.include_router(vods_router)
+app.include_router(uploads_router)
+app.include_router(sheets_router)
 
 
 @app.get("/health")

@@ -14,7 +14,9 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.0",
     "zustand": "^5.0.3",
-    "nanoid": "^5.1.5"
+    "nanoid": "^5.1.5",
+    "react-markdown": "^9.0.1",
+    "rehype-sanitize": "^6.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.0",

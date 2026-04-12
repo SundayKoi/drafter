@@ -36,3 +36,5 @@ htmlcov/
 
 # Docker volumes
 postgres_data/
+uploads/
+uploads_data/

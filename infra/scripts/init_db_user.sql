@@ -12,7 +12,14 @@ GRANT CONNECT ON DATABASE ember_drafter TO drafter_app;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO drafter_app;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO drafter_app;
 
--- Auto-grant on future tables
+-- Auto-grant on future tables. Default privileges only apply to objects
+-- created by the role specified in FOR ROLE — since Alembic runs as
+-- drafter_migrate, we must set defaults for that role (and the superuser
+-- fallback) so drafter_app picks up DML rights on newly created site tables.
+ALTER DEFAULT PRIVILEGES FOR ROLE drafter_migrate IN SCHEMA public
+    GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO drafter_app;
+ALTER DEFAULT PRIVILEGES FOR ROLE drafter_migrate IN SCHEMA public
+    GRANT USAGE, SELECT ON SEQUENCES TO drafter_app;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
     GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO drafter_app;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
