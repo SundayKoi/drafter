@@ -105,9 +105,8 @@ function buildEmbed(vod: Vod): string | null {
       if (parts[0] === 'videos' && parts[1]) {
         return `https://player.twitch.tv/?video=v${encodeURIComponent(parts[1])}&parent=${parent}`;
       }
-      if (u.hostname.includes('clips.twitch')) {
-        const slug = parts[0];
-        return `https://clips.twitch.tv/embed?clip=${encodeURIComponent(slug)}&parent=${parent}`;
+      if (u.hostname.includes('clips.twitch') && parts[0]) {
+        return `https://clips.twitch.tv/embed?clip=${encodeURIComponent(parts[0])}&parent=${parent}`;
       }
     }
   } catch {
