@@ -7,13 +7,15 @@ const links = [
   { to: '/standings', label: 'Standings' },
   { to: '/scores', label: 'Scores' },
   { to: '/vods', label: 'VODs' },
-  { to: '/drafter', label: 'Drafter' },
   { to: '/apply', label: 'Apply' },
   { to: '/about', label: 'About' },
 ];
 
-// External / non-SPA links (served by nginx, not React Router).
-const externalLinks = [{ href: '/stats/', label: 'Stats' }];
+// External / non-SPA links (open in new tab).
+const externalLinks = [
+  { href: '/drafter', label: 'Drafter' },
+  { href: '/stats/', label: 'Stats' },
+];
 
 export function Navbar() {
   return (
@@ -45,6 +47,8 @@ export function Navbar() {
             <li key={l.href}>
               <a
                 href={l.href}
+                target="_blank"
+                rel="noreferrer"
                 className="font-display text-lg tracking-wide text-white/80 transition-colors hover:text-white"
               >
                 {l.label}
