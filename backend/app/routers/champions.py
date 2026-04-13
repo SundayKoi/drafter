@@ -11,7 +11,7 @@ from app.security.rate_limit import limiter
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api/champions", tags=["champions"])
+router = APIRouter(prefix="/champions", tags=["champions"])
 
 DDRAGON_VERSIONS_URL = "https://ddragon.leagueoflegends.com/api/versions.json"
 DDRAGON_CHAMPIONS_URL = "https://ddragon.leagueoflegends.com/cdn/{patch}/data/en_US/champion.json"

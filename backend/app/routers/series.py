@@ -15,7 +15,7 @@ from app.security.tokens import verify_token
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api/series", tags=["series"])
+router = APIRouter(prefix="/series", tags=["series"])
 
 FORMAT_MAX_GAMES = {"bo1": 1, "bo3": 3, "bo5": 5}
 
