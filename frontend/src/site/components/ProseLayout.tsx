@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
+import remarkGfm from 'remark-gfm';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 
@@ -147,6 +148,7 @@ export function ProseLayout({
                     "
                   >
                     <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
                       rehypePlugins={[rehypeSanitize]}
                       components={{
                         h1: HeadingRenderer(1),
