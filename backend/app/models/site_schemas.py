@@ -247,6 +247,8 @@ ALLOWED_SETTING_KEYS = {
     "org_bio",
     "current_season",
     "applications_open",
+    "rules_embed_url",
+    "league_info_embed_url",
 }
 
 
@@ -259,3 +261,5 @@ class SettingsBody(BaseModel):
     org_bio: str | None = Field(default=None, max_length=5000)
     current_season: str | None = Field(default=None, max_length=10)
     applications_open: bool | None = None
+    rules_embed_url: str | None = Field(default=None, max_length=1000)
+    league_info_embed_url: str | None = Field(default=None, max_length=1000)

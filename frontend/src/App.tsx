@@ -8,6 +8,8 @@ import { VodsPage } from './site/pages/VodsPage';
 import { ApplyPage } from './site/pages/ApplyPage';
 import { AboutPage } from './site/pages/AboutPage';
 import { NewsPostPage } from './site/pages/NewsPostPage';
+import { RulesPage } from './site/pages/RulesPage';
+import { LeagueInfoPage } from './site/pages/LeagueInfoPage';
 import { LoginPage } from './site/pages/admin/LoginPage';
 import { AdminLayout } from './site/pages/admin/AdminLayout';
 import { DashboardPage } from './site/pages/admin/DashboardPage';
@@ -27,6 +29,8 @@ export function App() {
       <Route path="/vods" element={<VodsPage />} />
       <Route path="/apply" element={<ApplyPage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/rules" element={<RulesPage />} />
+      <Route path="/league-info" element={<LeagueInfoPage />} />
       <Route path="/news/:slug" element={<NewsPostPage />} />
 
       {/* Admin panel (staff only) */}

@@ -10,6 +10,8 @@ const KEYS = [
   'org_bio',
   'current_season',
   'applications_open',
+  'rules_embed_url',
+  'league_info_embed_url',
 ] as const;
 
 type Key = (typeof KEYS)[number];
@@ -84,7 +86,12 @@ export function SettingsPage() {
             <input
               value={values[k]}
               onChange={(e) => setValues((v) => ({ ...v, [k]: e.target.value }))}
-              maxLength={500}
+              maxLength={1000}
+              placeholder={
+                k.endsWith('_embed_url')
+                  ? 'https://docs.google.com/document/d/.../pub?embedded=true'
+                  : undefined
+              }
               className={inputCls}
             />
           )}
