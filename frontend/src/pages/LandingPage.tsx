@@ -56,7 +56,7 @@ export function LandingPage() {
   if (result) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4">
-        <div className="flex flex-col items-center gap-6 max-w-lg w-full">
+        <div className="flex flex-col items-center gap-6 max-w-2xl w-full">
           <img src={BRAND.logoUrl} alt={BRAND.name} className="h-16 w-auto" />
           <h1 className="font-display text-4xl text-white uppercase">Series Created</h1>
 
@@ -82,13 +82,13 @@ export function LandingPage() {
         <h1 className="font-display text-3xl md:text-4xl text-white uppercase leading-tight text-center tracking-wider">
           Real-Time Draft Tool
         </h1>
-        <p className="font-mono text-sm text-muted text-center max-w-md">
+        <p className="font-mono text-sm text-muted text-center max-w-2xl">
           Create a series, share the links, draft live.
         </p>
       </div>
 
       {/* Create form */}
-      <div className="flex flex-col gap-4 w-full max-w-md bg-draft-surface border border-draft-border rounded-lg p-6">
+      <div className="flex flex-col gap-4 w-full max-w-2xl bg-draft-surface border border-draft-border rounded-lg p-6">
         {/* Series name */}
         <div className="flex flex-col gap-1">
           <label className="font-display text-sm text-muted uppercase tracking-wider">Series Name</label>
@@ -195,7 +195,7 @@ export function LandingPage() {
       </div>
 
       {/* How it works */}
-      <div className="flex flex-col items-center gap-3 max-w-md">
+      <div className="flex flex-col items-center gap-3 max-w-2xl">
         <h2 className="font-display text-lg text-muted uppercase tracking-widest">How It Works</h2>
         <ol className="font-mono text-sm text-muted space-y-1 list-decimal list-inside">
           <li>Create a series (Bo1 / Bo3 / Bo5)</li>
