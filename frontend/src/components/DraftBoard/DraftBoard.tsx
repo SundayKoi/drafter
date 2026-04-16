@@ -27,7 +27,7 @@ export function DraftBoard({ patch, centerContent, previewChampionId }: DraftBoa
   const activeSide = currentSlot?.side ?? null;
 
   return (
-    <div className="flex items-start justify-center gap-6 w-full max-w-6xl mx-auto px-4 draft-texture">
+    <div className="flex items-start justify-center gap-6 w-full max-w-[1800px] mx-auto px-4 draft-texture">
       {/* Blue side — always left */}
       <TeamColumn
         side="blue"
