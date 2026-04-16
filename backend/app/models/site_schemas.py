@@ -249,6 +249,8 @@ ALLOWED_SETTING_KEYS = {
     "applications_open",
     "rules_embed_url",
     "league_info_embed_url",
+    "rules_content",
+    "league_info_content",
 }
 
 
@@ -263,3 +265,5 @@ class SettingsBody(BaseModel):
     applications_open: bool | None = None
     rules_embed_url: str | None = Field(default=None, max_length=1000)
     league_info_embed_url: str | None = Field(default=None, max_length=1000)
+    rules_content: str | None = Field(default=None, max_length=50000)
+    league_info_content: str | None = Field(default=None, max_length=50000)

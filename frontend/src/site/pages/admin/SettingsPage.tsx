@@ -12,9 +12,15 @@ const KEYS = [
   'applications_open',
   'rules_embed_url',
   'league_info_embed_url',
+  'rules_content',
+  'league_info_content',
 ] as const;
 
 type Key = (typeof KEYS)[number];
+
+const TEXTAREA_KEYS = new Set<string>(['org_bio', 'rules_content', 'league_info_content']);
+const BOOL_KEYS = new Set<string>(['applications_open']);
+const MAX_CONTENT = 50000;
 
 export function SettingsPage() {
   const [values, setValues] = useState<Record<Key, string>>(
@@ -43,7 +49,7 @@ export function SettingsPage() {
       const payload: Record<string, string | boolean | null> = {};
       KEYS.forEach((k) => {
         const raw = values[k];
-        if (k === 'applications_open') {
+        if (BOOL_KEYS.has(k)) {
           payload[k] = raw === 'true';
         } else {
           payload[k] = raw || null;
@@ -59,21 +65,33 @@ export function SettingsPage() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="max-w-2xl space-y-4">
+    <form onSubmit={onSubmit} className="max-w-3xl space-y-4">
       <h1 className="font-display text-4xl tracking-wider">SETTINGS</h1>
 
       {KEYS.map((k) => (
         <label key={k} className="block text-sm text-[#8A9099]">
-          <div className="mb-1 font-mono uppercase">{k.replace(/_/g, ' ')}</div>
-          {k === 'org_bio' ? (
+          <div className="mb-1 flex items-center gap-2 font-mono uppercase">
+            {k.replace(/_/g, ' ')}
+            {k.endsWith('_content') && (
+              <span className="rounded bg-[#1C1C1C] px-1.5 py-0.5 text-[10px] normal-case tracking-normal text-[#666]">
+                Markdown
+              </span>
+            )}
+          </div>
+          {TEXTAREA_KEYS.has(k) ? (
             <textarea
               value={values[k]}
               onChange={(e) => setValues((v) => ({ ...v, [k]: e.target.value }))}
-              rows={6}
-              maxLength={5000}
-              className={inputCls}
+              rows={k.endsWith('_content') ? 20 : 6}
+              maxLength={k.endsWith('_content') ? MAX_CONTENT : 5000}
+              placeholder={
+                k.endsWith('_content')
+                  ? '# Section Title\n\n## 1. First Rule\n\nRule description here…'
+                  : undefined
+              }
+              className={`${inputCls} font-mono text-sm`}
             />
-          ) : k === 'applications_open' ? (
+          ) : BOOL_KEYS.has(k) ? (
             <select
               value={values[k] || 'true'}
               onChange={(e) => setValues((v) => ({ ...v, [k]: e.target.value }))}
@@ -89,7 +107,7 @@ export function SettingsPage() {
               maxLength={1000}
               placeholder={
                 k.endsWith('_embed_url')
-                  ? 'https://docs.google.com/document/d/.../pub?embedded=true'
+                  ? 'https://docs.google.com/document/d/.../pub?embedded=true (fallback if no content set)'
                   : undefined
               }
               className={inputCls}
