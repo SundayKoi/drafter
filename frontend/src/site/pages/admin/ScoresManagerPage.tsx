@@ -1,15 +1,13 @@
 import { useMemo, useState, type FormEvent } from 'react';
 import { api, ApiError } from '../../api/client';
-import { LeagueFilter } from '../../components/LeagueFilter';
 import { useMatches, useSettings, useTeams } from '../../hooks/useSiteData';
 import type { LeagueId, Match, MatchStatus, Team } from '../../types';
 
 export function ScoresManagerPage() {
   const { settings } = useSettings();
   const season = settings.current_season || 'S1';
-  const [league, setLeague] = useState<LeagueId>('cinder');
-  const { data: matches, loading } = useMatches(league, season);
-  const { data: teams } = useTeams(league);
+  const { data: matches, loading } = useMatches(null, season);
+  const { data: teams } = useTeams();
   const [editing, setEditing] = useState<Match | null>(null);
   const [creating, setCreating] = useState(false);
 
@@ -32,9 +30,6 @@ export function ScoresManagerPage() {
         >
           + NEW MATCH
         </button>
-      </div>
-      <div className="mt-4">
-        <LeagueFilter value={league} onChange={setLeague} />
       </div>
 
       {loading && <div className="mt-4 text-[#666]">Loading…</div>}
@@ -79,7 +74,6 @@ export function ScoresManagerPage() {
           {(creating || editing) && teams && (
             <MatchForm
               teams={teams}
-              league={league}
               season={season}
               match={editing}
               onDone={() => {
@@ -97,17 +91,18 @@ export function ScoresManagerPage() {
 
 function MatchForm({
   teams,
-  league,
   season,
   match,
   onDone,
 }: {
   teams: Team[];
-  league: LeagueId;
   season: string;
   match: Match | null;
   onDone: () => void;
 }) {
+  const [league, setLeague] = useState<LeagueId>(
+    match?.league_id ?? (teams[0]?.league_id ?? 'cinder'),
+  );
   const [blue, setBlue] = useState(match?.blue_team_id ?? teams[0]?.id ?? '');
   const [red, setRed] = useState(match?.red_team_id ?? teams[1]?.id ?? teams[0]?.id ?? '');
   const [blueScore, setBlueScore] = useState<string>(
@@ -184,11 +179,34 @@ function MatchForm({
       className="space-y-3 rounded border border-[#2A2A2A] bg-[#141414] p-5"
     >
       <div className="grid grid-cols-2 gap-3">
+        <Field label="League">
+          <select
+            value={league}
+            onChange={(e) => setLeague(e.target.value as LeagueId)}
+            className={inputCls}
+          >
+            <option value="cinder">Cinder</option>
+            <option value="blaze">Blaze</option>
+            <option value="scorch">Scorch</option>
+            <option value="magma">Magma</option>
+          </select>
+        </Field>
+        <Field label="Status">
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value as MatchStatus)}
+            className={inputCls}
+          >
+            <option value="scheduled">Scheduled</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </Field>
         <Field label="Blue">
           <select value={blue} onChange={(e) => setBlue(e.target.value)} className={inputCls}>
             {teams.map((t) => (
               <option key={t.id} value={t.id}>
-                {t.name}
+                {t.name} ({t.league_id})
               </option>
             ))}
           </select>
@@ -197,7 +215,7 @@ function MatchForm({
           <select value={red} onChange={(e) => setRed(e.target.value)} className={inputCls}>
             {teams.map((t) => (
               <option key={t.id} value={t.id}>
-                {t.name}
+                {t.name} ({t.league_id})
               </option>
             ))}
           </select>
@@ -225,17 +243,6 @@ function MatchForm({
             onChange={(e) => setScheduledAt(e.target.value)}
             className={inputCls}
           />
-        </Field>
-        <Field label="Status">
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value as MatchStatus)}
-            className={inputCls}
-          >
-            <option value="scheduled">Scheduled</option>
-            <option value="completed">Completed</option>
-            <option value="cancelled">Cancelled</option>
-          </select>
         </Field>
       </div>
       <Field label="VOD URL">

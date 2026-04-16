@@ -1,13 +1,11 @@
 import { useMemo, useState, type FormEvent } from 'react';
 import { api, ApiError } from '../../api/client';
-import { LeagueFilter } from '../../components/LeagueFilter';
 import { useTeams } from '../../hooks/useSiteData';
 import { validateOpggUrl } from '../../utils/opgg';
-import type { LeagueId, Player, Role, Team } from '../../types';
+import type { Player, Role, Team } from '../../types';
 
 export function PlayersManagerPage() {
-  const [league, setLeague] = useState<LeagueId>('cinder');
-  const { data: teams, loading, reload } = useTeams(league);
+  const { data: teams, loading, reload } = useTeams();
   const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
 
   const team = useMemo(
@@ -18,9 +16,6 @@ export function PlayersManagerPage() {
   return (
     <div>
       <h1 className="font-display text-4xl tracking-wider">PLAYERS</h1>
-      <div className="mt-4">
-        <LeagueFilter value={league} onChange={setLeague} />
-      </div>
       {loading && <div className="mt-4 text-[#666]">Loading…</div>}
 
       <div className="mt-6 grid gap-4 lg:grid-cols-3">

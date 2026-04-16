@@ -26,10 +26,10 @@ export function HomePage() {
             APPLY NOW
           </Link>
           <Link
-            to="/standings"
+            to="/scores"
             className="rounded border border-white/30 px-6 py-3 font-display tracking-wider hover:border-white"
           >
-            STANDINGS
+            SCORES
           </Link>
         </div>
       </section>
@@ -71,24 +71,6 @@ export function HomePage() {
           </div>
         </section>
       )}
-
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        {SITE_BRAND.leagues.map((lg) => (
-          <Link
-            key={lg.id}
-            to={`/standings?league=${lg.id}`}
-            className="rounded border border-[#2A2A2A] bg-[#141414] p-6 transition hover:border-white/40"
-          >
-            <div
-              className="font-display text-3xl tracking-wider"
-              style={{ color: lg.color }}
-            >
-              {lg.name.toUpperCase()}
-            </div>
-            <div className="mt-1 font-mono text-xs text-[#666]">TIER {lg.tier}</div>
-          </Link>
-        ))}
-      </section>
     </SiteLayout>
   );
 }

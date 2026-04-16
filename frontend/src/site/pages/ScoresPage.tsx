@@ -1,16 +1,11 @@
-import { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useMemo } from 'react';
 import { SiteLayout } from '../components/SiteLayout';
-import { LeagueFilter } from '../components/LeagueFilter';
 import { useMatches, useTeams } from '../hooks/useSiteData';
-import type { LeagueId, Match, Team } from '../types';
+import type { Match, Team } from '../types';
 
 export function ScoresPage() {
-  const [params, setParams] = useSearchParams();
-  const initial = (params.get('league') as LeagueId) ?? 'cinder';
-  const [league, setLeague] = useState<LeagueId>(initial);
-  const { data: matches, loading } = useMatches(league);
-  const { data: teams } = useTeams(league);
+  const { data: matches, loading } = useMatches();
+  const { data: teams } = useTeams();
 
   const teamMap = useMemo(() => {
     const m = new Map<string, Team>();
@@ -21,15 +16,9 @@ export function ScoresPage() {
   const upcoming = matches?.filter((m) => m.status === 'scheduled') ?? [];
   const results = matches?.filter((m) => m.status === 'completed') ?? [];
 
-  const setLg = (id: LeagueId) => {
-    setLeague(id);
-    setParams({ league: id });
-  };
-
   return (
     <SiteLayout>
       <h1 className="mb-6 font-display text-5xl tracking-wider">SCORES</h1>
-      <LeagueFilter value={league} onChange={setLg} />
 
       {loading && <div className="mt-8 text-[#666]">Loading…</div>}
 

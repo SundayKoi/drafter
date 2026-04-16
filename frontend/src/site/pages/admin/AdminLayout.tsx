@@ -5,7 +5,6 @@ import { SITE_BRAND } from '../../brand';
 const navItems = [
   { to: '/admin', label: 'Dashboard', end: true },
   { to: '/admin/applications', label: 'Applications' },
-  { to: '/admin/standings', label: 'Standings' },
   { to: '/admin/scores', label: 'Scores' },
   { to: '/admin/news', label: 'News' },
   { to: '/admin/vods', label: 'VODs' },

@@ -5,7 +5,6 @@ import { SITE_BRAND } from '../brand';
 // Internal SPA links.
 const links = [
   { to: '/', label: 'Home', end: true },
-  { to: '/standings', label: 'Standings' },
   { to: '/scores', label: 'Scores' },
   { to: '/vods', label: 'VODs' },
   { to: '/apply', label: 'Apply' },

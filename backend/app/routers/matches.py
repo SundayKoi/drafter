@@ -19,14 +19,14 @@ def _out(m: Match) -> MatchOut:
 
 @router.get("", response_model=list[MatchOut])
 async def list_matches(
-    league: LeagueId,
+    league: LeagueId | None = None,
     season: str | None = None,
     db: AsyncSession = Depends(get_db),
 ) -> list[MatchOut]:
     if season is None:
         s = await settings_repo.get_all(db)
         season = s.get("current_season") or "S1"
-    return [_out(m) for m in await matches_repo.list_by_league(db, league, season)]
+    return [_out(m) for m in await matches_repo.list_matches(db, season, league)]
 
 
 @router.post("", response_model=MatchOut, status_code=201)

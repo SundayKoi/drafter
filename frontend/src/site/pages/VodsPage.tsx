@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import { SiteLayout } from '../components/SiteLayout';
-import { LeagueFilter } from '../components/LeagueFilter';
 import { useVods } from '../hooks/useSiteData';
-import type { LeagueId, Vod } from '../types';
+import type { Vod } from '../types';
 
 export function VodsPage() {
-  const [league, setLeague] = useState<LeagueId>('cinder');
-  const { data, loading } = useVods(league);
+  const { data, loading } = useVods();
   const [active, setActive] = useState<Vod | null>(null);
 
   return (
     <SiteLayout>
       <h1 className="mb-6 font-display text-5xl tracking-wider">VODS</h1>
-      <LeagueFilter value={league} onChange={setLeague} />
 
       {loading && <div className="mt-8 text-[#666]">Loading…</div>}
 

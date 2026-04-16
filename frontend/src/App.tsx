@@ -3,7 +3,6 @@ import { LandingPage } from './pages/LandingPage';
 import { DraftPage } from './pages/DraftPage';
 import { SpectatorPage } from './pages/SpectatorPage';
 import { HomePage } from './site/pages/HomePage';
-import { StandingsPage } from './site/pages/StandingsPage';
 import { ScoresPage } from './site/pages/ScoresPage';
 import { VodsPage } from './site/pages/VodsPage';
 import { ApplyPage } from './site/pages/ApplyPage';
@@ -13,7 +12,6 @@ import { LoginPage } from './site/pages/admin/LoginPage';
 import { AdminLayout } from './site/pages/admin/AdminLayout';
 import { DashboardPage } from './site/pages/admin/DashboardPage';
 import { ApplicationsPage } from './site/pages/admin/ApplicationsPage';
-import { StandingsManagerPage } from './site/pages/admin/StandingsManagerPage';
 import { ScoresManagerPage } from './site/pages/admin/ScoresManagerPage';
 import { NewsManagerPage } from './site/pages/admin/NewsManagerPage';
 import { VodsManagerPage } from './site/pages/admin/VodsManagerPage';
@@ -25,7 +23,6 @@ export function App() {
     <Routes>
       {/* Main Ember Esports site */}
       <Route path="/" element={<HomePage />} />
-      <Route path="/standings" element={<StandingsPage />} />
       <Route path="/scores" element={<ScoresPage />} />
       <Route path="/vods" element={<VodsPage />} />
       <Route path="/apply" element={<ApplyPage />} />
@@ -37,7 +34,6 @@ export function App() {
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="applications" element={<ApplicationsPage />} />
-        <Route path="standings" element={<StandingsManagerPage />} />
         <Route path="scores" element={<ScoresManagerPage />} />
         <Route path="news" element={<NewsManagerPage />} />
         <Route path="vods" element={<VodsManagerPage />} />

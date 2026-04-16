@@ -11,8 +11,14 @@ router = APIRouter(prefix="/teams", tags=["teams"])
 
 
 @router.get("", response_model=list[TeamOut])
-async def list_teams(league: LeagueId, db: AsyncSession = Depends(get_db)) -> list[TeamOut]:
-    teams = await teams_repo.list_by_league(db, league)
+async def list_teams(
+    league: LeagueId | None = None, db: AsyncSession = Depends(get_db)
+) -> list[TeamOut]:
+    teams = (
+        await teams_repo.list_by_league(db, league)
+        if league
+        else await teams_repo.list_all(db)
+    )
     return [
         TeamOut(
             id=t.id,

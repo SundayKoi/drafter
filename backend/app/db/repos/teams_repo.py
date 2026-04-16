@@ -22,5 +22,9 @@ async def get(db: AsyncSession, team_id: str) -> Team | None:
 
 
 async def list_all(db: AsyncSession) -> list[Team]:
-    stmt = select(Team).order_by(Team.league_id, Team.name)
+    stmt = (
+        select(Team)
+        .options(selectinload(Team.players))
+        .order_by(Team.league_id, Team.name)
+    )
     return list((await db.execute(stmt)).scalars().all())

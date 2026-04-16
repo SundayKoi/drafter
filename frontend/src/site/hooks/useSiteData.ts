@@ -35,11 +35,12 @@ export function useStandings(league: LeagueId, season?: string) {
   return { data, loading };
 }
 
-export function useMatches(league: LeagueId, season?: string) {
+export function useMatches(league?: LeagueId | null, season?: string) {
   const [data, setData] = useState<Match[] | null>(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const qs = new URLSearchParams({ league });
+    const qs = new URLSearchParams();
+    if (league) qs.set('league', league);
     if (season) qs.set('season', season);
     setLoading(true);
     api<Match[]>(`/matches?${qs}`, { auth: false })
@@ -77,12 +78,13 @@ export function useVods(league?: LeagueId | null) {
   return { data, loading };
 }
 
-export function useTeams(league: LeagueId) {
+export function useTeams(league?: LeagueId | null) {
   const [data, setData] = useState<Team[] | null>(null);
   const [loading, setLoading] = useState(true);
   const reload = useCallback(() => {
     setLoading(true);
-    api<Team[]>(`/teams?league=${league}`, { auth: false })
+    const qs = league ? `?league=${league}` : '';
+    api<Team[]>(`/teams${qs}`, { auth: false })
       .then(setData)
       .finally(() => setLoading(false));
   }, [league]);
