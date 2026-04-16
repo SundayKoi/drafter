@@ -35,12 +35,9 @@ function HeadingRenderer(level: number) {
   return function Heading({ children }: { children?: React.ReactNode }) {
     const text = typeof children === 'string' ? children : String(children ?? '');
     const id = slugify(text);
-    const Tag = `h${level}` as keyof JSX.IntrinsicElements;
-    return (
-      <Tag id={id} className="scroll-mt-32">
-        {children}
-      </Tag>
-    );
+    if (level === 1) return <h1 id={id} className="scroll-mt-32">{children}</h1>;
+    if (level === 2) return <h2 id={id} className="scroll-mt-32">{children}</h2>;
+    return <h3 id={id} className="scroll-mt-32">{children}</h3>;
   };
 }
 
