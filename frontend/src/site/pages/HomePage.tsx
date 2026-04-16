@@ -31,6 +31,14 @@ export function HomePage() {
           >
             LEAGUE INFO
           </Link>
+          <a
+            href="https://discord.com/invite/BFPQzyne"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded border border-[#5865F2] bg-[#5865F2] px-6 py-3 font-display tracking-wider hover:bg-[#4752C4]"
+          >
+            JOIN US
+          </a>
         </div>
       </section>
 
