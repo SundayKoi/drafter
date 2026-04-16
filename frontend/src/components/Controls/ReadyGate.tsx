@@ -19,7 +19,7 @@ export function ReadyGate({ onReady }: ReadyGateProps) {
 
   return (
     <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-      <div className="flex flex-col items-center gap-6 p-8 rounded-lg bg-draft-surface border border-draft-border max-w-md">
+      <div className="flex flex-col items-center gap-6 p-8 rounded-lg bg-draft-surface border border-draft-border max-w-2xl">
         {/* Game info */}
         <div className="text-center">
           <h2 className="font-display text-3xl text-white uppercase tracking-wider">

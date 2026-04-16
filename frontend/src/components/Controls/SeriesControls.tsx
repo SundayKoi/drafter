@@ -36,7 +36,7 @@ export function SeriesControls({
 
   if (gameReported && !seriesOver) {
     return (
-      <div className="flex flex-col items-center gap-5 p-5 rounded bg-draft-surface border border-draft-border w-full max-w-md">
+      <div className="flex flex-col items-center gap-5 p-5 rounded bg-draft-surface border border-draft-border w-full max-w-2xl">
         <span className="font-display text-lg text-white uppercase tracking-wider">
           Next Game Setup
         </span>
