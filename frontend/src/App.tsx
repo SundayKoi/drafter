@@ -10,7 +10,6 @@ import { LoginPage } from './site/pages/admin/LoginPage';
 import { AdminLayout } from './site/pages/admin/AdminLayout';
 import { DashboardPage } from './site/pages/admin/DashboardPage';
 import { NewsManagerPage } from './site/pages/admin/NewsManagerPage';
-import { PlayersManagerPage } from './site/pages/admin/PlayersManagerPage';
 import { SettingsPage } from './site/pages/admin/SettingsPage';
 
 export function App() {
@@ -27,7 +26,6 @@ export function App() {
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="news" element={<NewsManagerPage />} />
-        <Route path="players" element={<PlayersManagerPage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>
 
