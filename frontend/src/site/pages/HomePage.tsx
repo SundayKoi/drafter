@@ -20,16 +20,16 @@ export function HomePage() {
         </p>
         <div className="mt-8 flex gap-4">
           <Link
-            to="/apply"
+            to="/rules"
             className="rounded border border-[#E63000] bg-[#E63000] px-6 py-3 font-display tracking-wider hover:bg-[#CC1A1A]"
           >
-            APPLY NOW
+            RULES
           </Link>
           <Link
-            to="/scores"
+            to="/league-info"
             className="rounded border border-white/30 px-6 py-3 font-display tracking-wider hover:border-white"
           >
-            SCORES
+            LEAGUE INFO
           </Link>
         </div>
       </section>

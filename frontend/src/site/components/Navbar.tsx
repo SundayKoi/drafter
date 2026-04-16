@@ -5,12 +5,8 @@ import { SITE_BRAND } from '../brand';
 // Internal SPA links.
 const links = [
   { to: '/', label: 'Home', end: true },
-  { to: '/scores', label: 'Scores' },
-  { to: '/vods', label: 'VODs' },
   { to: '/rules', label: 'Rules' },
   { to: '/league-info', label: 'League Info' },
-  { to: '/apply', label: 'Apply' },
-  { to: '/about', label: 'About' },
 ];
 
 // External / non-SPA links (open in new tab).
