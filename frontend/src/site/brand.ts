@@ -1,6 +1,6 @@
 export const SITE_BRAND = {
   name: 'Ember Esports',
-  tagline: 'FORGE YOUR LEGACY',
+  tagline: 'IGNITE YOUR LEGACY',
   logoUrl: '/assets/ember-logo.png',
   colors: {
     crimson: '#CC1A1A',
