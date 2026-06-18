@@ -13,6 +13,7 @@ class DraftRoom:
     blue_ready: bool = False
     red_ready: bool = False
     fearless_pool: set[str] = field(default_factory=set)
+    state_lock: asyncio.Lock = field(default_factory=asyncio.Lock)
 
 
 # In-memory store of active rooms keyed by series_id

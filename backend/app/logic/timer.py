@@ -32,43 +32,44 @@ async def run_room_timer(
             await manager.broadcast(series_id, timer_tick_message(remaining))
 
         # Timer expired — auto-pass (skip this action)
-        if room.state.phase == DraftPhase.COMPLETE:
-            return
+        async with room.state_lock:
+            if room.state.phase == DraftPhase.COMPLETE:
+                return
 
-        if room.state.current_slot_index >= len(room.state.slots):
-            return
+            if room.state.current_slot_index >= len(room.state.slots):
+                return
 
-        current_slot = room.state.slots[room.state.current_slot_index]
+            current_slot = room.state.slots[room.state.current_slot_index]
 
-        # Lock the slot with no champion and advance
-        new_slots = [s.model_copy() for s in room.state.slots]
-        new_slots[room.state.current_slot_index] = current_slot.model_copy(
-            update={"champion_id": None, "locked": True}
-        )
-        next_index = room.state.current_slot_index + 1
-        next_phase = DraftPhase.COMPLETE if next_index >= 20 else _compute_phase_import(next_index)
-        room.state = room.state.model_copy(update={
-            "slots": new_slots,
-            "current_slot_index": next_index,
-            "phase": next_phase,
-        })
-
-        # Broadcast updated state after auto-advance
-        from app.ws.handler import broadcast_sync
-        await broadcast_sync(series_id, room, manager)
-
-        # Save to DB if callback provided
-        if db_save_callback:
-            await db_save_callback(room.state.model_dump())
-
-        # If not complete, restart timer for next slot
-        if room.state.phase != DraftPhase.COMPLETE:
-            room.timer_task = asyncio.create_task(
-                run_room_timer(
-                    series_id, timer_seconds, room, manager,
-                    db_save_callback,
-                )
+            # Lock the slot with no champion and advance
+            new_slots = [s.model_copy() for s in room.state.slots]
+            new_slots[room.state.current_slot_index] = current_slot.model_copy(
+                update={"champion_id": None, "locked": True}
             )
+            next_index = room.state.current_slot_index + 1
+            next_phase = DraftPhase.COMPLETE if next_index >= 20 else _compute_phase_import(next_index)
+            room.state = room.state.model_copy(update={
+                "slots": new_slots,
+                "current_slot_index": next_index,
+                "phase": next_phase,
+            })
+
+            # Broadcast updated state after auto-advance
+            from app.ws.handler import broadcast_sync
+            await broadcast_sync(series_id, room, manager)
+
+            # Save to DB if callback provided
+            if db_save_callback:
+                await db_save_callback(room.state.model_dump())
+
+            # If not complete, restart timer for next slot
+            if room.state.phase != DraftPhase.COMPLETE:
+                room.timer_task = asyncio.create_task(
+                    run_room_timer(
+                        series_id, timer_seconds, room, manager,
+                        db_save_callback,
+                    )
+                )
 
     except asyncio.CancelledError:
         pass

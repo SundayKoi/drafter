@@ -55,6 +55,11 @@ export function DraftPage() {
         setDraft(msg.payload.draft);
         setSeries(msg.payload.series);
 
+        // Clear selection when slot advances (opponent locked or timer expired)
+        if (prevDraft && msg.payload.draft.current_slot_index !== prevDraft.current_slot_index) {
+          setSelectedChampion(null);
+        }
+
         // Detect ban events for toast
         if (prevDraft && msg.payload.draft.current_slot_index > prevDraft.current_slot_index) {
           const filledSlotIdx = msg.payload.draft.current_slot_index - 1;

@@ -289,37 +289,38 @@ async def _handle_lock_in(
         )
         return
 
-    try:
-        new_state = apply_action(room.state, champion_id, role, room.fearless_pool)
-    except DraftValidationError as e:
-        await manager.send_to(series_id, role, error_message(e.code, e.message))
-        return
+    async with room.state_lock:
+        try:
+            new_state = apply_action(room.state, champion_id, role, room.fearless_pool)
+        except DraftValidationError as e:
+            await manager.send_to(series_id, role, error_message(e.code, e.message))
+            return
 
-    room.state = new_state
+        room.state = new_state
 
-    # Save to DB
-    async with AsyncSessionLocal() as db:
-        games = await series_repo.get_series_games(db, series_id)
-        current_game = next(
-            (g for g in games if g.status == "in_progress"), None
-        )
-        if current_game:
-            await series_repo.save_draft_state(db, current_game, room.state.model_dump())
-
-    # Reset timer
-    if room.state.phase != DraftPhase.COMPLETE:
+        # Save to DB
         async with AsyncSessionLocal() as db:
             games = await series_repo.get_series_games(db, series_id)
-            current_game = next((g for g in games if g.status == "in_progress"), None)
+            current_game = next(
+                (g for g in games if g.status == "in_progress"), None
+            )
             if current_game:
-                _start_timer(series_id, room, current_game.id)
-    else:
-        # Draft complete — cancel timer
-        if room.timer_task and not room.timer_task.done():
-            room.timer_task.cancel()
-            room.timer_task = None
+                await series_repo.save_draft_state(db, current_game, room.state.model_dump())
 
-    await broadcast_sync(series_id, room, manager)
+        # Reset timer
+        if room.state.phase != DraftPhase.COMPLETE:
+            async with AsyncSessionLocal() as db:
+                games = await series_repo.get_series_games(db, series_id)
+                current_game = next((g for g in games if g.status == "in_progress"), None)
+                if current_game:
+                    _start_timer(series_id, room, current_game.id)
+        else:
+            # Draft complete — cancel timer
+            if room.timer_task and not room.timer_task.done():
+                room.timer_task.cancel()
+                room.timer_task = None
+
+        await broadcast_sync(series_id, room, manager)
 
 
 async def _handle_report_winner(
