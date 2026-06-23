@@ -2,7 +2,7 @@
 
 The Ember League is a community-run League of Legends competition that aims to deliver a structured, fair, and exciting competitive experience. This rulebook applies to all participating teams, players, coaches, and representatives, and governs all operations for the current Ember League season. The Ember League is not affiliated with or endorsed by Riot Games.
 
-All official communication, coordination, and dispute resolution will be handled via the Ember League Discord server: [https://discord.gg/3PJrm96P9J](https://discord.gg/3PJrm96P9J)
+All official communication, coordination, and dispute resolution will be handled via the Ember League Discord server: [https://discord.gg/UFJkczU89X](https://discord.gg/UFJkczU89X)
 
 Rule amendments may be made during the season, but will only apply if they do not retroactively impact already-played matches. Any such changes will be underlined and announced in a public changelog. The League Admins reserve the right to act in the best interests of competitive integrity and may issue penalties or decisions outside the bounds of this document if necessary. Lack of verbiage in this document does not constrain the League Admins and they may use any punitive actions at their disposal to act in the best interests of the League.
 
