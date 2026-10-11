@@ -29,6 +29,23 @@ cd /opt/ember-drafter
 ./infra/scripts/deploy.sh
 ```
 
+## Stats Page
+
+`stats/index.html` is the page served at `/stats/`. Nginx reads it from
+`/opt/ember-stats/` on the VPS, so `deploy.sh` does not update it. To publish:
+
+```bash
+cd /opt/ember-drafter
+git pull origin main
+cp /opt/ember-stats/index.html /root/stats-backup.html
+cp stats/index.html /opt/ember-stats/index.html
+```
+
+Undo with `cp /root/stats-backup.html /opt/ember-stats/index.html`.
+
+Team logos on the Teams tab come from the Google Sheet's `Config` tab: add a
+row with key `teamLogo_<Team Name>` and an `https://` image URL as the value.
+
 ## DB Backup
 
 ```bash
